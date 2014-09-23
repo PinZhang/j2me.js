@@ -184,14 +184,17 @@ public class TextEditor extends CanvasItem {
     // Gets the number of characters that are currently stored in this TextEditor.
     native public int size();
 
+    private int constraints = 0;
     // Sets the input constraints of this TextEditor.
     public void setConstraints(int constraints) {
-        throw new RuntimeException("TextEditor::setConstraints(int) not implemented");
+      	this.constraints = constraints;
+//        throw new RuntimeException("TextEditor::setConstraints(int) not implemented");
     }
 
     // Gets the current input constraints of this TextEditor.
     public int getConstraints() {
-        throw new RuntimeException("TextEditor::getConstraints() not implemented");
+      	return this.constraints;
+//        throw new RuntimeException("TextEditor::getConstraints() not implemented");
     }
 
     // Sets a hint to the implementation as to the input mode that should be used when the user initiates editing of this TextEditor.
