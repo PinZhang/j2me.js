@@ -25,6 +25,27 @@ VM.execute = function(ctx) {
     var stack = frame.stack;
 
     function pushFrame(methodInfo, consumes) {
+    if (methodInfo &&
+        methodInfo.classInfo &&
+        methodInfo.classInfo.className) {
+      //if (methodInfo.classInfo.className.indexOf('tencent') > -1) {
+      //  console.log('#######################' + methodInfo.classInfo.className);
+      //}
+
+      if (['afd', 'ade', 'add', 'adc', 'com/tencent/mm/ui/cz',
+           'com/tencent/mm/ui/cs', 'agp', 'acd',
+           'com/tencent/mm/ui/bu',
+           'com/tencent/mm/ui/cd',
+           'acc', 'ach', 'acj'].indexOf(methodInfo.classInfo.className) > -1) {
+        console.log('!!!!! Invoked:' +
+                    methodInfo.classInfo.className + '.' +
+                    methodInfo.name +
+                    methodInfo.signature);
+        // for (var i in methodInfo) {
+        //   console.log(i + ": " + methodInfo[i]);
+        // }
+      }
+    }
         var caller = frame;
         frame = ctx.pushFrame(methodInfo, consumes);
         stack = frame.stack;

@@ -39,6 +39,9 @@ var fs = (function() {
   }
 
   function normalizePath(path) {
+    if (path.indexOf('wechat') > -1) {
+      path = path.replace('fcfile:///wechat/', '');
+    }
     // Remove a trailing slash.
     if (path.length != 1 && path.lastIndexOf("/") == path.length-1) {
       path = path.substring(0, path.length-1);
@@ -280,6 +283,8 @@ var fs = (function() {
   }
 
   function create(path, blob, cb) {
+    path = normalizePath(path);
+
     createInternal(path, blob, function(created) {
       setStat(path, { mtime: Date.now(), isDir: false }, function() {
         cb(created);
@@ -288,6 +293,8 @@ var fs = (function() {
   }
 
   function mkdir(path, cb) {
+    path = normalizePath(path);
+
     createInternal(path, [], function(created) {
       setStat(path, { mtime: Date.now(), isDir: true }, function() {
         cb(created);
@@ -296,6 +303,8 @@ var fs = (function() {
   }
 
   function mkdirp(path, cb) {
+    path = normalizePath(path);
+
     if (path[0] !== "/") {
       console.error("mkdirp called on relative path: " + path);
       cb(false);

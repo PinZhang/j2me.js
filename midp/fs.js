@@ -295,8 +295,33 @@ Native["com/sun/midp/rms/RecordStoreRegistry.stopAllRecordStoreListeners.(I)V"] 
     console.warn("RecordStoreRegistry.stopAllRecordStoreListeners.(I)V not implemented (" + taskId + ")");
 }
 
+function ab2str(buf) {
+  return String.fromCharCode.apply(null, new Uint16Array(buf));
+}
+
+function str2ab(str) {
+  var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
+  var bufView = new Uint16Array(buf);
+  for (var i=0, strLen=str.length; i<strLen; i++) {
+     bufView[i] = str.charCodeAt(i);
+  }
+  return buf;
+}
+
 Native["com/ibm/oti/connection/file/Connection.isValidFilenameImpl.([B)Z"] = function(ctx, stack) {
     var path = stack.pop(), _this = stack.pop();
+
+    debugger;
+    var tmpPath = ab2str(path);
+    if (tmpPath.indexOf('fcfile:') > -1) {
+      tmpPath = tmpPath.replace('fcfile:', '');
+    }
+
+    if (tmpPath.indexOf('wechat') > -1) {
+      tmpPath = tmpPath.replace('wechat', '');
+    }
+
+    path = str2ab(tmpPath);
 
     var invalid = ['<', '>', ':', '"', '/', '\\', '|', '*', '?'].map(function(char) {
       return char.charCodeAt(0);
